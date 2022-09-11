@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: functions-service-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: functions-service
+  template:
+    metadata:
+      labels:
+        app: functions-service
+    spec:
+      containers:
+        - name: functions-service
+          image: rvanappeldorn/function-service
+          env:
+            - name: DATABASE_NAME
+              value: functions-service
+            - name: MONGO_URI
+              value: mongodb://functions-service-mongo-srv:27017/functions-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: functions-service-srv
+spec:
+  selector:
+    app: functions-service
+  ports:
+    - name: functions-service
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

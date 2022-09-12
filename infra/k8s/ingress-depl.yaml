@@ -14,6 +14,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: functions-service-srv
+                name: function-service-srv
                 port:
                   number: 3000

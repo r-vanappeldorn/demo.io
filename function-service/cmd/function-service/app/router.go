@@ -16,9 +16,8 @@ const (
 
 func (app *Application) Router() *httprouter.Router {
 	r := httprouter.New()
-
-	r.GET(app.SetPath("/:id"), app.ShowFunction)
-
+	r.GET(app.SetPath("/:id"), app.ShowFunction)	
+	r.POST(app.SetPath(), app.Create)
 	return r
 }
 

@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: functions-service-mongo-depl
+  name: function-service-mongo-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: functions-service-mongo
+      app: function-service-mongo
   template:
     metadata:
       labels:
-        app: functions-service-mongo
+        app: function-service-mongo
     spec:
       containers:
-        - name: functions-service-mongo
+        - name: function-service-mongo
           image: mongo
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: functions-service-mongo-srv
+  name: function-service-mongo-srv
 spec: 
   selector:
-    app: functions-service-mongo
+    app: function-service-mongo
   ports:
     - name: db
       protocol: TCP

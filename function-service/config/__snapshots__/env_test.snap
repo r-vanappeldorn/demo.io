@@ -1,0 +1,18 @@
+
+[TestGetEnv/MONGO_URI_and_DATABASE_NAME_not_defined - 1]
+
+[error] MONGO_URI is not defined as env variable 
+[error] DATABASE_NAME is not defined as env variable
+---
+
+[TestGetEnv/MONGO_URI_not_defined - 1]
+
+[error] MONGO_URI is not defined as env variable 
+[error] DATABASE_NAME is not defined as env variable
+---
+
+[TestGetEnv/DATABASE_NAME_not_defined - 1]
+
+[error] MONGO_URI is not defined as env variable 
+[error] DATABASE_NAME is not defined as env variable
+---

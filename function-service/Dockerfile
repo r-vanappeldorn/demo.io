@@ -6,4 +6,4 @@ COPY . .
 
 RUN make build
 
-CMD ["./functions-service"]
+CMD ["./function-service"]

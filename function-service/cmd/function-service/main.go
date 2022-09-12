@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"function-srv/cmd/function-service/app"
 	"function-srv/config"
+	"function-srv/pkg/database"
+	"function-srv/pkg/messages"
 	"log"
 	"net/http"
 	"os"
@@ -22,7 +24,8 @@ func main() {
 		log.Ldate|log.Ltime,
 	)
 
-	app := app.NewApplication(logger, cfg)
+	db := database.ConnectToDb(&env)
+	app := app.NewApplication(logger, cfg, db)
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.Port),
@@ -32,8 +35,7 @@ func main() {
 		WriteTimeout: 30 * time.Second,
 	}
 
-	logger.Printf("starting %s service at %s", cfg.Env, srv.Addr)
-
+	logger.Printf("%s starting %s service at %s", messages.Succes(), cfg.Env, srv.Addr)
 	if err := srv.ListenAndServe(); err != nil {
 		logger.Fatal(err)
 	}

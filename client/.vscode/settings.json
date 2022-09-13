@@ -1,0 +1,5 @@
+{
+  "[ts,json,js,tsx,jsx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

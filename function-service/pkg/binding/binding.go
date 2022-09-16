@@ -16,7 +16,7 @@ type DefaultValidator struct {
 }
 
 func (err ValidationError) Error() string {
-	
+	return ""
 }
 
 func (v *DefaultValidator) lazyInit() {

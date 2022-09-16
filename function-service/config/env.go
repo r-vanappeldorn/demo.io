@@ -31,12 +31,12 @@ func GetEnv() Env {
 		errs = append(errs, err.Error())
 	}
 
+	env.DatabaseName = databaseName
+	env.MongoUri = mongoUri
+
 	if len(errs) > 0 {
 		log.Fatal(strings.Join(errs, " "))
 	}
-
-	env.DatabaseName = databaseName
-	env.MongoUri = mongoUri
 
 	return env
 }

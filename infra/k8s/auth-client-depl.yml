@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-client-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-client
+  template:
+    metadata:
+      labels:
+        app: auth-client
+    spec:
+      containers:
+        - name: auth-client
+          image: rvanappeldorn/auth-client
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-client-srv
+spec:
+  selector:
+    app: auth-client
+  ports:
+    - name: auth-client
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-service-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account-service
+  template:
+    metadata:
+      labels:
+        app: account-service
+    spec:
+      containers:
+        - name: account-service
+          image: rvanappeldorn/account-service
+          env:
+            - name: DATABASE_NAME
+              value: account-service
+            - name: MONGO_URI
+              value: mongodb://account-service-mongo-srv:27017/account-service
+            - name: ENCRYPTION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: encryption-secret 
+                  key: ENCRYPTION_TOKEN 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-service-srv
+spec:
+  selector:
+    app: account-service
+  ports:
+    - name: account-service
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+

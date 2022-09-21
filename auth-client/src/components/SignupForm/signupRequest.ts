@@ -1,45 +1,19 @@
-import axios, { AxiosError } from "axios"
-import { ErrorRes } from "../../types/errors"
+import { ErrorRes } from "@demo.io/utils/dist/types"
+import { nextJsApiRequest } from "@demo.io/utils/dist/utils"
 
-interface Args {
-  fullName: string
-  password: string
-  username: string
+export const signupRequest = async (
+  fullName: string,
+  password: string,
+  username: string,
   email: string
-}
+) => {
+  const { error } = await nextJsApiRequest<unknown, ErrorRes>(
+    "post",
+    { fullName, password, username, email },
+    "/api/auth"
+  )
 
-export const signupRequest = async ({
-  fullName,
-  password,
-  username,
-  email,
-}: Args) => {
-  if (typeof window !== "undefined") {
-    try {
-      const { data } = await axios.post("http://demo.io/api/auth/signup", {
-        fullName,
-        email,
-        username,
-        password,
-      })
-      return { data }
-    } catch (err) {
-      return { error: (err as AxiosError).response?.data as ErrorRes }
-    }
-  }
-
-  try {
-    const { data } = await axios.post(
-      "http://acount-service-srv/api/auth/signup",
-      {
-        fullName,
-        email,
-        username,
-        password,
-      }
-    )
-    return { data }
-  } catch (err) {
-    return { error: (err as AxiosError).response?.data as ErrorRes }
+  return {
+    error: (error.response?.data as any).errors as ErrorRes,
   }
 }

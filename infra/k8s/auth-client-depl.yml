@@ -15,6 +15,9 @@ spec:
       containers:
         - name: auth-client
           image: rvanappeldorn/auth-client
+          env:
+            - name: SRV_URL
+              value: http://account-service-srv
 ---
 apiVersion: v1
 kind: Service

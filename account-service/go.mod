@@ -6,6 +6,7 @@ require (
 	bou.ke/monkey v1.0.2
 	github.com/gin-gonic/gin v1.8.1
 	github.com/gkampitakis/go-snaps v0.3.7
+	github.com/go-playground/validator/v10 v10.11.0
 	go.mongodb.org/mongo-driver v1.10.2
 )
 
@@ -14,7 +15,6 @@ require (
 	github.com/gkampitakis/ciinfo v0.1.1 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator/v10 v10.11.0 // indirect
 	github.com/goccy/go-json v0.9.11 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

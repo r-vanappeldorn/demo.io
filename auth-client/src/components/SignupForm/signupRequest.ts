@@ -10,7 +10,7 @@ export const signupRequest = async (
   const { error } = await nextJsApiRequest<unknown, ErrorRes>(
     "post",
     { fullName, password, username, email },
-    "/api/auth"
+    "/api/auth/signup"
   )
 
   return {

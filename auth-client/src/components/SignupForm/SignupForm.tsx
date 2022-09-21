@@ -1,52 +1,63 @@
-import { Box } from "@mui/system"
-import { Input } from "../Input"
-import { useSignupFormState } from "./useSignupFormState"
+import { useState } from "react"
+
+import { Error } from "../../types/errors"
+import FormInput from "../shared/FormInput"
+import { signupRequest } from "./signupRequest"
+import Form from "../shared/Form"
 
 const SignupForm: React.FC = () => {
-  const {
-    errs,
-    setErrs,
-    email,
-    setEmail,
-    userName,
-    setUserName,
-    password,
-    setPassword,
-  } = useSignupFormState()
+  const [fullName, setFullName] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const [email, setEmail] = useState<string>("")
+  const [username, setUsername] = useState<string>("")
+  const [errors, setErrors] = useState<Error[]>([])
+
+  const handleSubmit = async () => {
+    const { error } = await signupRequest({
+      fullName,
+      password,
+      username,
+      email,
+    })
+    console.log(error)
+    if (typeof error !== "undefined") setErrors(error.errors)
+  }
 
   return (
-    <Box
-      sx={{
-        marginTop: 10,
-        padding: 5,
-        maxWidth: 400,
-        height: "auto",
-        backgroundColor: "rgb(32, 32, 32)",
-        borderRadius: 10,
-      }}
-    >
-      <Input
-        type="email"
+    <Form onSubmit={handleSubmit}>
+      <FormInput
+        value={fullName}
+        fieldName="fullname"
+        type="text"
+        errors={errors}
+        label="Full name:"
+        onChange={(e) => setFullName(e.target.value)}
+      />
+      <FormInput
+        value={email}
         fieldName="email"
-        value={email}
-        errors={errs}
+        type="email"
+        errors={errors}
+        label="Email:"
         onChange={(e) => setEmail(e.target.value)}
       />
-      <Input
+      <FormInput
+        value={username}
+        fieldName="username"
         type="text"
-        fieldName="text"
-        value={email}
-        errors={errs}
-        onChange={(e) => setEmail(e.target.value)}
+        errors={errors}
+        label="Username:"
+        onChange={(e) => setUsername(e.target.value)}
       />
-      <Input
-        type="text"
-        fieldName="userName"
-        value={userName}
-        errors={errs}
-        onChange={(e) => setUserName(e.target.value)}
+      <FormInput
+        value={password}
+        fieldName="password"
+        type="password"
+        errors={errors}
+        label="Password:"
+        onChange={(e) => setPassword(e.target.value)}
       />
-    </Box>
+    </Form>
   )
 }
 

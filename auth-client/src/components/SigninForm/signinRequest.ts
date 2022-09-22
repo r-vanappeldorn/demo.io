@@ -1,21 +1,18 @@
-import { ErrorRes } from "@demo.io/utils/dist/types"
+import { Error, ErrorRes } from "@demo.io/utils/dist/types"
 import { nextJsApiRequest } from "@demo.io/utils/dist/utils"
 
-export const signinRequest = async (
-  fullName: string,
-  password: string,
-  username: string,
-  email: string
-) => {
+export const signinRequest = async (username: string, password: string) => {
   const { error, data } = await nextJsApiRequest<unknown, ErrorRes>(
     "post",
-    { fullName, password, username, email },
-    "/api/auth/signin"
+    { password, username },
+    "/api/auth/signin",
+    process.env.NEXT_PUBLIC_MAIN_URL,
+    process.env.NEXT_PUBLIC_ACCOUNT_SRV
   )
 
-  console.log(data)
 
   return {
-    error: (error.response?.data as any).errors as ErrorRes,
+    error: (error.response?.data as any).errors as Error[],
+    data,
   }
 }

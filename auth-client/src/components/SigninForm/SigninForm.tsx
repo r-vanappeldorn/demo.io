@@ -1,15 +1,39 @@
 import { Button, Form, FormInput } from "@demo.io/utils/dist/components"
 import { Error } from "@demo.io/utils/dist/types"
+import {
+  addToLocalstorage,
+  getFromLocalStorage,
+} from "@demo.io/utils/dist/utils"
 import Link from "next/link"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
+import { signinRequest } from "./signinRequest"
 
 const SinginForm: FC = () => {
   const [errors, serErrors] = useState<Error[]>([])
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
 
+  useEffect(() => {
+    const storage = getFromLocalStorage("auth.demo.io")
+
+    if (typeof storage !== "undefined" && storage !== null) {
+      setUsername(storage.login.username)
+      setPassword(storage.login.password)
+    }
+  }, [])
+
   const handleSubmit = async () => {
-    console.log(username, password)
+    addToLocalstorage("auth.demo.io", {
+      login: {
+        username,
+        password,
+      },
+    })
+
+    const { data, error } = await signinRequest(username, password)
+    if (typeof error !== "undefined") {
+      serErrors(error)
+    }
   }
 
   return (
@@ -33,8 +57,8 @@ const SinginForm: FC = () => {
 
       <Button className="mb-5">Log in to your account</Button>
       <Link href="/signup">
-        <a className="text-sm  text-purpel-500 underline" href="/signup">
-          Create a account if you don't have one
+        <a className="text-sm text-purpel-500 underline">
+          Create a account if you do not have one
         </a>
       </Link>
     </Form>

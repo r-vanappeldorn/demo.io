@@ -4,6 +4,7 @@ import { Button, Form, FormInput } from "@demo.io/utils/dist/components"
 import { Error } from "@demo.io/utils/dist/types"
 import { signupRequest } from "./signupRequest"
 import Link from "next/link"
+import { addToLocalstorage } from "@demo.io/utils/dist/utils"
 
 const SignupForm: React.FC = () => {
   const [fullName, setFullName] = useState<string>("")
@@ -13,9 +14,20 @@ const SignupForm: React.FC = () => {
   const [errors, setErrors] = useState<Error[]>([])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    const { error } = await signupRequest(fullName, password, username, email)
-    console.log(error)
-    if (typeof error !== "undefined") setErrors(error.errors)
+    const { error, data } = await signupRequest(
+      fullName,
+      password,
+      username,
+      email
+    )
+    if (typeof error !== "undefined") setErrors(error)
+
+    addToLocalstorage("auth.demo.io", {
+      login: {
+        username,
+        password,
+      },
+    })
   }
 
   return (
@@ -54,7 +66,7 @@ const SignupForm: React.FC = () => {
       />
       <Button className="mb-5">Create your account</Button>
       <Link href="/signin">
-        <a className="text-sm text-purpel-500 underline" href="/singin">
+        <a className="text-sm text-purpel-500 underline">
           Signin if you already have a account
         </a>
       </Link>

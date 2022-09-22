@@ -16,8 +16,10 @@ spec:
         - name: auth-client
           image: rvanappeldorn/auth-client
           env:
-            - name: SRV_URL
+            - name: NEXT_PUBLIC_ACCOUNT_SRV
               value: http://account-service-srv
+            - name: NEXT_PUBLIC_MAIN_URL
+              value: http://demo.io
 ---
 apiVersion: v1
 kind: Service
